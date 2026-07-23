@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Categories — Classic Chic</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/animations.css"><link rel="stylesheet" href="css/responsive.css">
+</head><body>
+<div id="cc-navbar"></div><div id="cc-sidebar"></div>
+<main class="container">
+  <header class="page-hero">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Categories</div>
+    <span class="eyebrow">Explore</span>
+    <h1>All Categories</h1>
+    <p>Browse the entire Classic Chic atelier — filter, sort, and find your next favorite.</p>
+  </header>
+  <section class="section" style="padding-top:0">
+    <div class="category-grid" id="cats"></div>
+  </section>
+  <div class="filter-bar">
+    <div class="chips" id="chips"></div>
+    <select id="sort">
+      <option value="">Sort by</option>
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+      <option value="rating">Top Rated</option>
+    </select>
+  </div>
+  <div class="product-grid" id="grid"></div>
+</main>
+<div id="cc-footer"></div><div id="cc-bottom"></div>
+<script src="js/products.js"></script><script src="js/cart.js"></script><script src="js/auth.js"></script>
+<script src="js/animations.js"></script><script src="js/script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', ()=>{
+  document.getElementById('cats').innerHTML = CC_CATEGORIES.map(c=>`
+    <a class="category-card" href="?cat=${encodeURIComponent(c.filter.sub||c.filter.category||'')}">
+      <img src="${c.img}" alt="${c.label}"><div class="label"><span>${c.sub}</span><h3>${c.label}</h3></div>
+    </a>`).join('');
+
+  const url = new URL(location.href);
+  const preset = url.searchParams.get('cat') || 'All';
+  const subs = ['All', 'Men', 'Women', ...Array.from(new Set(CC_PRODUCTS.map(p=>p.sub)))];
+  let active = subs.includes(preset)?preset:'All', sort='';
+  const chips = document.getElementById('chips');
+  chips.innerHTML = subs.map(s=>`<button class="chip ${s===active?'active':''}" data-s="${s}">${s}</button>`).join('');
+  chips.addEventListener('click', e=>{ const b=e.target.closest('.chip'); if(!b)return; active=b.dataset.s; chips.querySelectorAll('.chip').forEach(c=>c.classList.toggle('active', c===b)); render(); });
+  document.getElementById('sort').addEventListener('change', e=>{ sort=e.target.value; render(); });
+  function render(){
+    let opts={sort};
+    if(active==='Men') opts.category='men';
+    else if(active==='Women') opts.category='women';
+    else if(active!=='All') opts.sub=active;
+    const list = filterProducts(opts);
+    document.getElementById('grid').innerHTML = list.map(renderProductCard).join('') || '<div class="empty-state"><h3>Nothing here yet</h3></div>';
+  }
+  render();
+});
+</script>
+</body></html>

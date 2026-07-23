@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Sign Up — Classic Chic</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/animations.css"><link rel="stylesheet" href="css/responsive.css">
+</head><body>
+<div id="cc-navbar"></div><div id="cc-sidebar"></div>
+<main class="container auth-wrap">
+  <form class="auth-card anim-scaleIn" id="signup-form">
+    <div class="logo">C</div>
+    <h1>Create your account</h1>
+    <p class="sub">Join the Classic Chic atelier</p>
+    <div class="field"><label>Full Name</label><input required name="name" minlength="2"/></div>
+    <div class="field"><label>Email</label><input required type="email" name="email"/></div>
+    <div class="field pwd"><label>Password</label><input required minlength="6" type="password" name="password" id="pw"/><span class="toggle" onclick="var i=document.getElementById('pw'); i.type=i.type==='password'?'text':'password'; this.textContent=i.type==='password'?'Show':'Hide';">Show</span></div>
+    <div class="err" id="err"></div>
+    <button class="btn btn-primary btn-block btn-lg" type="submit">Create Account</button>
+    <div class="auth-swap">Already have an account? <a href="login.html">Sign in</a></div>
+  </form>
+</main>
+<div id="cc-footer"></div><div id="cc-bottom"></div>
+<script src="js/products.js"></script><script src="js/cart.js"></script><script src="js/auth.js"></script>
+<script src="js/animations.js"></script><script src="js/script.js"></script>
+<script>
+document.getElementById('signup-form').addEventListener('submit', e=>{
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  const res = Auth.signup({ name:fd.get('name').trim(), email:fd.get('email').trim(), password:fd.get('password') });
+  const err = document.getElementById('err');
+  if(!res.ok){ err.textContent=res.error; err.classList.add('show'); return; }
+  toast('Account created');
+  setTimeout(()=>location.href='profile.html', 500);
+});
+</script>
+</body></html>

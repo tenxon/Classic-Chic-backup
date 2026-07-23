@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Contact — Classic Chic</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/animations.css"><link rel="stylesheet" href="css/responsive.css">
+</head><body>
+<div id="cc-navbar"></div><div id="cc-sidebar"></div>
+<main class="container">
+  <header class="page-hero"><div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Contact</div><span class="eyebrow">We're here</span><h1>Get in touch</h1><p>Have a question, custom order, or feedback? Our concierge team responds within one business day.</p></header>
+  <section class="section" style="padding-top:0">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="item"><div class="label">Concierge</div><div class="val">+91 98765 43210</div></div>
+        <div class="item"><div class="label">Email</div><div class="val">care@classicchic.in</div></div>
+        <div class="item"><div class="label">Atelier</div><div class="val">Bandra West, Mumbai, India</div></div>
+        <div class="item"><div class="label">Hours</div><div class="val">Mon – Sat · 10am – 8pm IST</div></div>
+      </div>
+      <form class="contact-form" onsubmit="event.preventDefault(); this.reset(); toast('Thanks — we will be in touch shortly.');">
+        <div class="field"><label>Name</label><input required/></div>
+        <div class="field"><label>Email</label><input required type="email"/></div>
+        <div class="field"><label>Subject</label><input required/></div>
+        <div class="field"><label>Message</label><textarea required rows="5"></textarea></div>
+        <button class="btn btn-primary btn-block" type="submit">Send Message</button>
+      </form>
+    </div>
+  </section>
+</main>
+<div id="cc-footer"></div><div id="cc-bottom"></div>
+<script src="js/products.js"></script><script src="js/cart.js"></script><script src="js/auth.js"></script>
+<script src="js/animations.js"></script><script src="js/script.js"></script>
+</body></html>

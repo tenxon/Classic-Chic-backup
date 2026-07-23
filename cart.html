@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Cart — Classic Chic</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/animations.css"><link rel="stylesheet" href="css/responsive.css">
+</head><body>
+<div id="cc-navbar"></div><div id="cc-sidebar"></div>
+<main class="container">
+  <header class="page-hero">
+    <div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Cart</div>
+    <span class="eyebrow">Shopping Bag</span><h1>Your Cart</h1>
+  </header>
+  <div id="cart-body"></div>
+</main>
+<div id="cc-footer"></div><div id="cc-bottom"></div>
+<script src="js/products.js"></script><script src="js/cart.js"></script><script src="js/auth.js"></script>
+<script src="js/animations.js"></script><script src="js/script.js"></script>
+<script>
+function draw(){
+  const items = Cart.all();
+  const wrap = document.getElementById('cart-body');
+  if(!items.length){ wrap.innerHTML='<div class="empty-state"><h3>Your bag is empty</h3><p>Add pieces you love and check out when ready.</p><a class="btn btn-primary" href="categories.html">Start Shopping</a></div>'; return; }
+  const subtotal = Cart.subtotal();
+  const shipping = subtotal > 1999 ? 0 : 99;
+  const discount = subtotal > 2499 ? 200 : 0;
+  const total = subtotal + shipping - discount;
+  wrap.innerHTML = `
+    <div class="cart-wrap">
+      <div class="cart-items">
+        ${items.map(i=>{
+          const p = getProduct(i.id); if(!p) return '';
+          return `<div class="cart-item">
+            <div class="thumb"><img src="${p.img}" alt="${p.name}"></div>
+            <div>
+              <h4>${p.name}</h4>
+              <div class="meta">${p.sub}${i.size?` · Size ${i.size}`:''}</div>
+              <div class="row">
+                <div class="qty-box"><button data-key="${i.key}" data-dq="-1">−</button><span>${i.qty}</span><button data-key="${i.key}" data-dq="1">+</button></div>
+                <span class="price">${formatINR(p.price*i.qty)}</span>
+                <button class="rm" data-rm="${i.key}">Remove</button>
+              </div>
+            </div>
+            <div></div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="summary">
+        <h3>Order Summary</h3>
+        <div class="row"><span>Subtotal</span><span>${formatINR(subtotal)}</span></div>
+        <div class="row"><span>Shipping</span><span>${shipping===0?'Free':formatINR(shipping)}</span></div>
+        <div class="row"><span>Discount</span><span>${discount?'−'+formatINR(discount):'—'}</span></div>
+        <div class="row total"><span>Grand Total</span><span>${formatINR(total)}</span></div>
+        <a class="btn btn-primary btn-block" href="checkout.html" style="margin-top:16px">Proceed to Checkout</a>
+        <a class="btn btn-ghost btn-block" href="categories.html" style="margin-top:8px">Continue Shopping</a>
+      </div>
+    </div>`;
+  wrap.querySelectorAll('[data-dq]').forEach(b=>b.addEventListener('click', ()=>{
+    const key=b.dataset.key, delta=parseInt(b.dataset.dq);
+    const cur=Cart.all().find(x=>x.key===key); if(!cur) return;
+    Cart.update(key, cur.qty+delta);
+  }));
+  wrap.querySelectorAll('[data-rm]').forEach(b=>b.addEventListener('click', ()=>{ Cart.remove(b.dataset.rm); toast('Removed'); }));
+}
+document.addEventListener('DOMContentLoaded', draw);
+window.addEventListener('cc:update', draw);
+</script>
+</body></html>

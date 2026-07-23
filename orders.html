@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>My Orders — Classic Chic</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/animations.css"><link rel="stylesheet" href="css/responsive.css">
+</head><body>
+<div id="cc-navbar"></div><div id="cc-sidebar"></div>
+<main class="container">
+  <header class="page-hero"><div class="breadcrumb"><a href="index.html">Home</a><span>/</span>Orders</div><span class="eyebrow">Order history</span><h1>My Orders</h1></header>
+  <div id="orders-body"></div>
+</main>
+<div id="cc-footer"></div><div id="cc-bottom"></div>
+<script src="js/products.js"></script><script src="js/cart.js"></script><script src="js/auth.js"></script>
+<script src="js/profile.js"></script><script src="js/animations.js"></script><script src="js/script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', ()=>{
+  if(!requireLogin()) return;
+  const orders = JSON.parse(localStorage.getItem('cc_orders')||'[]');
+  const body = document.getElementById('orders-body');
+  if(!orders.length){ body.innerHTML='<div class="empty-state"><h3>No orders yet</h3><p>Your placed orders will appear here.</p><a class="btn btn-primary" href="categories.html">Start Shopping</a></div>'; return; }
+  body.innerHTML = orders.map(o=>`
+    <div class="cart-items" style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--border);margin-bottom:12px">
+        <div><div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Order</div><strong>#${o.id}</strong></div>
+        <div style="text-align:right"><div style="font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted)">Placed</div>${new Date(o.at).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'})}</div>
+      </div>
+      ${o.items.map(i=>{ const p=getProduct(i.id); return p?`
+        <div class="cart-item">
+          <div class="thumb"><img src="${p.img}" alt=""></div>
+          <div><h4>${p.name}</h4><div class="meta">${p.sub}${i.size?` · Size ${i.size}`:''} · Qty ${i.qty}</div>
+            <div class="row"><span class="price">${formatINR(p.price*i.qty)}</span><span style="color:#2e7d32;font-size:12px;letter-spacing:1px">✓ Confirmed</span></div>
+          </div>
+          <div></div>
+        </div>`:'';}).join('')}
+      <div style="text-align:right;padding-top:12px;border-top:1px solid var(--border);margin-top:12px"><strong style="font-size:18px">Total: ${formatINR(o.total)}</strong></div>
+    </div>`).join('');
+});
+</script>
+</body></html>

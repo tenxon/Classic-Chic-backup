@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Checkout — Classic Chic</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/animations.css"><link rel="stylesheet" href="css/responsive.css">
+</head><body>
+<div id="cc-navbar"></div><div id="cc-sidebar"></div>
+<main class="container">
+  <header class="page-hero">
+    <div class="breadcrumb"><a href="cart.html">Cart</a><span>/</span>Checkout</div>
+    <span class="eyebrow">Almost there</span><h1>Checkout</h1>
+  </header>
+  <div class="cart-wrap">
+    <form class="cart-items" id="co-form">
+      <h3 style="margin-bottom:16px">Shipping Address</h3>
+      <div class="field"><label>Full Name</label><input required name="name"/></div>
+      <div class="field"><label>Phone Number</label><input required name="phone" pattern="[0-9]{10}" placeholder="10-digit mobile"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div class="field"><label>Pincode</label><input required name="pincode" pattern="[0-9]{6}" placeholder="6-digit"/></div>
+        <div class="field"><label>State</label>
+          <select required name="state">
+            <option value="">Select</option>
+            <option>Maharashtra</option><option>Delhi</option><option>Karnataka</option><option>Tamil Nadu</option>
+            <option>Gujarat</option><option>Rajasthan</option><option>West Bengal</option><option>Uttar Pradesh</option>
+            <option>Kerala</option><option>Punjab</option><option>Telangana</option><option>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>City</label><input required name="city"/></div>
+      <div class="field"><label>Address</label><textarea required name="address" rows="3" placeholder="House no, street, area, landmark"></textarea></div>
+
+      <h3 style="margin:24px 0 16px">Payment Method</h3>
+      <div class="chips" id="pay-methods">
+        <button type="button" class="chip active" data-p="UPI">UPI</button>
+        <button type="button" class="chip" data-p="Credit Card">Credit Card</button>
+        <button type="button" class="chip" data-p="Debit Card">Debit Card</button>
+        <button type="button" class="chip" data-p="Cash On Delivery">Cash On Delivery</button>
+      </div>
+      <button class="btn btn-primary btn-block btn-lg" style="margin-top:24px" type="submit">Place Order</button>
+    </form>
+    <div class="summary" id="summary"></div>
+  </div>
+</main>
+<div id="cc-footer"></div><div id="cc-bottom"></div>
+<script src="js/products.js"></script><script src="js/cart.js"></script><script src="js/auth.js"></script>
+<script src="js/animations.js"></script><script src="js/script.js"></script>
+<script>
+function drawSummary(){
+  const items = Cart.all();
+  const subtotal = Cart.subtotal();
+  const shipping = subtotal > 1999 || subtotal===0 ? 0 : 99;
+  const discount = subtotal > 2499 ? 200 : 0;
+  const total = subtotal + shipping - discount;
+  document.getElementById('summary').innerHTML = `
+    <h3>Order Summary</h3>
+    ${items.map(i=>{ const p=getProduct(i.id); return p?`<div class="row"><span>${p.name} × ${i.qty}</span><span>${formatINR(p.price*i.qty)}</span></div>`:'';}).join('')}
+    <div class="row"><span>Shipping</span><span>${shipping===0?'Free':formatINR(shipping)}</span></div>
+    <div class="row"><span>Discount</span><span>${discount?'−'+formatINR(discount):'—'}</span></div>
+    <div class="row total"><span>Grand Total</span><span>${formatINR(total)}</span></div>`;
+}
+document.addEventListener('DOMContentLoaded', ()=>{
+  if(!Cart.all().length){ location.href='cart.html'; return; }
+  drawSummary();
+  document.getElementById('pay-methods').addEventListener('click', e=>{
+    const b=e.target.closest('.chip'); if(!b) return;
+    document.querySelectorAll('#pay-methods .chip').forEach(c=>c.classList.remove('active'));
+    b.classList.add('active');
+  });
+  document.getElementById('co-form').addEventListener('submit', e=>{
+    e.preventDefault();
+    const orderId = 'CC' + Date.now().toString().slice(-8);
+    // save order
+    const orders = JSON.parse(localStorage.getItem('cc_orders')||'[]');
+    orders.unshift({ id:orderId, at:Date.now(), items:Cart.all(), total:Cart.subtotal() });
+    localStorage.setItem('cc_orders', JSON.stringify(orders));
+    Cart.clear();
+    toast('Order placed — thank you!');
+    setTimeout(()=>location.href='orders.html', 900);
+  });
+});
+</script>
+</body></html>

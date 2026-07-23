@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Classic Chic — Premium Indian Fashion</title>
+<meta name="description" content="Classic Chic is a premium Indian clothing house crafting timeless kurtas, sarees, sherwanis, lehengas and more."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/animations.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div class="loader" id="cc-loader"><div class="brand">CLASSIC CHIC</div></div>
+<div id="cc-navbar"></div>
+<div id="cc-sidebar"></div>
+
+<main class="container">
+
+  <section class="hero anim-fadeIn">
+    <div class="hero-slider" id="hero-slider">
+      <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1610030006870-e57e6a30e46e?w=1600')">
+        <div class="hero-content">
+          <span class="eyebrow">Autumn / Winter Edit</span>
+          <h1>Woven in tradition,<br/>tailored for today.</h1>
+          <p>Discover our new atelier collection — hand-crafted silks, whispered embroidery, and heirloom silhouettes.</p>
+          <a href="women.html" class="btn btn-primary btn-lg">Explore Women</a>
+        </div>
+      </div>
+      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1594938291221-94f18cbb5660?w=1600')">
+        <div class="hero-content">
+          <span class="eyebrow">The Wedding Atelier</span>
+          <h1>Sherwanis, sculpted<br/>with quiet luxury.</h1>
+          <p>Structured tailoring, ceremonial fabrics — for weddings that will be talked about for a lifetime.</p>
+          <a href="men.html" class="btn btn-primary btn-lg">Explore Men</a>
+        </div>
+      </div>
+      <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?w=1600')">
+        <div class="hero-content">
+          <span class="eyebrow">Heritage Weaves</span>
+          <h1>Banarasi sarees,<br/>reimagined.</h1>
+          <p>Pit-loom craftsmanship from Varanasi, tailored for the modern woman.</p>
+          <a href="categories.html" class="btn btn-primary btn-lg">Shop Sarees</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-dots" id="hero-dots"></div>
+    <div class="hero-controls">
+      <button id="hero-prev" aria-label="Previous"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="18" height="18"><path d="M15 6l-6 6 6 6" stroke-linecap="round"/></svg></button>
+      <button id="hero-next" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" width="18" height="18"><path d="M9 6l6 6-6 6" stroke-linecap="round"/></svg></button>
+    </div>
+  </section>
+
+  <form class="hero-search reveal" onsubmit="event.preventDefault(); if(this.q.value.trim()) location.href='search.html?q='+encodeURIComponent(this.q.value.trim());">
+    <input name="q" placeholder="Search for kurtas, sarees, sherwanis…" />
+    <button type="submit">Search</button>
+  </form>
+
+  <section class="section">
+    <div class="section-head">
+      <div><span class="eyebrow">Curated Edit</span><h2>Shop by Category</h2></div>
+      <a class="link" href="categories.html">View All</a>
+    </div>
+    <div class="category-grid" id="home-categories"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><span class="eyebrow">Featured</span><h2>The Signature Collection</h2></div>
+      <a class="link" href="women.html">View All</a>
+    </div>
+    <div class="product-grid" id="home-featured"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><span class="eyebrow">Trending Now</span><h2>Loved by our clients</h2></div>
+      <a class="link" href="categories.html">View All</a>
+    </div>
+    <div class="product-grid" id="home-trending"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head">
+      <div><span class="eyebrow">Just In</span><h2>New Arrivals</h2></div>
+      <a class="link" href="categories.html">View All</a>
+    </div>
+    <div class="product-grid" id="home-new"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div><span class="eyebrow">Bestsellers</span><h2>The Icons</h2></div><a class="link" href="categories.html">View All</a></div>
+    <div class="product-grid" id="home-best"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div><span class="eyebrow">Menswear</span><h2>Men's Edit</h2></div><a class="link" href="men.html">View All</a></div>
+    <div class="product-grid" id="home-men"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div><span class="eyebrow">Womenswear</span><h2>Women's Edit</h2></div><a class="link" href="women.html">View All</a></div>
+    <div class="product-grid" id="home-women"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div><span class="eyebrow">Rare & Numbered</span><h2>Limited Edition</h2></div></div>
+    <div class="product-grid" id="home-limited"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><div><span class="eyebrow">Client Diaries</span><h2>What our clients say</h2></div></div>
+    <div class="review-grid" id="home-reviews"></div>
+  </section>
+
+  <section class="section">
+    <div class="newsletter reveal">
+      <h2>Join the Atelier</h2>
+      <p>Early access to new collections, private sales, and stories from our craftspeople.</p>
+      <form onsubmit="event.preventDefault(); this.reset(); toast('Thank you — welcome to the atelier.');">
+        <input type="email" required placeholder="you@example.com" />
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<div id="cc-footer"></div>
+<div id="cc-bottom"></div>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/search.js"></script>
+<script src="js/animations.js"></script>
+<script src="js/script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', ()=>{
+  // Categories
+  document.getElementById('home-categories').innerHTML = CC_CATEGORIES.map(c=>`
+    <a class="category-card reveal" href="categories.html?cat=${encodeURIComponent(c.filter.sub||c.filter.category||'')}">
+      <img src="${c.img}" alt="${c.label}">
+      <div class="label"><span>${c.sub}</span><h3>${c.label}</h3></div>
+    </a>`).join('');
+
+  const featured = CC_PRODUCTS.slice(0,4);
+  const trending = CC_PRODUCTS.filter(p=>p.rating>=4.7).slice(0,4);
+  const newArrivals = CC_PRODUCTS.filter(p=>p.badge==='NEW').concat(CC_PRODUCTS).slice(0,4);
+  const best = CC_PRODUCTS.filter(p=>p.badge==='BESTSELLER').slice(0,4);
+  const men = CC_PRODUCTS.filter(p=>p.category==='men').slice(0,4);
+  const women = CC_PRODUCTS.filter(p=>p.category==='women').slice(0,4);
+  const limited = CC_PRODUCTS.filter(p=>p.badge==='LIMITED').concat(CC_PRODUCTS.slice(0,4)).slice(0,4);
+
+  document.getElementById('home-featured').innerHTML = featured.map(renderProductCard).join('');
+  document.getElementById('home-trending').innerHTML = trending.map(renderProductCard).join('');
+  document.getElementById('home-new').innerHTML = newArrivals.map(renderProductCard).join('');
+  document.getElementById('home-best').innerHTML = best.map(renderProductCard).join('');
+  document.getElementById('home-men').innerHTML = men.map(renderProductCard).join('');
+  document.getElementById('home-women').innerHTML = women.map(renderProductCard).join('');
+  document.getElementById('home-limited').innerHTML = limited.map(renderProductCard).join('');
+
+  document.getElementById('home-reviews').innerHTML = CC_REVIEWS.map(r=>`
+    <div class="review-card reveal">
+      <div class="stars">${'★'.repeat(r.stars)}</div>
+      <p>"${r.text}"</p>
+      <div class="who">
+        <div class="avatar">${r.name[0]}</div>
+        <div><div class="name">${r.name}</div><div class="city">${r.city}</div></div>
+      </div>
+    </div>`).join('');
+
+  // Reveal for freshly injected
+  document.querySelectorAll('.reveal').forEach(el=>{
+    if(!el.classList.contains('in')){
+      const io=new IntersectionObserver(([e])=>{ if(e.isIntersecting){ el.classList.add('in'); io.disconnect(); }}, {threshold:0.12});
+      io.observe(el);
+    }
+  });
+
+  // Hero slider
+  const slides = document.querySelectorAll('#hero-slider .hero-slide');
+  const dotsWrap = document.getElementById('hero-dots');
+  dotsWrap.innerHTML = Array.from(slides).map((_,i)=>`<button data-i="${i}" class="${i===0?'active':''}"></button>`).join('');
+  const dots = dotsWrap.querySelectorAll('button');
+  let idx=0, timer;
+  const go = i => {
+    slides[idx].classList.remove('active'); dots[idx].classList.remove('active');
+    idx = (i+slides.length)%slides.length;
+    slides[idx].classList.add('active'); dots[idx].classList.add('active');
+  };
+  const play = ()=>{ timer = setInterval(()=>go(idx+1), 5500); };
+  const stop = ()=>clearInterval(timer);
+  play();
+  dots.forEach(d=>d.addEventListener('click', ()=>{ stop(); go(+d.dataset.i); play(); }));
+  document.getElementById('hero-prev').addEventListener('click', ()=>{ stop(); go(idx-1); play(); });
+  document.getElementById('hero-next').addEventListener('click', ()=>{ stop(); go(idx+1); play(); });
+});
+</script>
+</body>
+</html>

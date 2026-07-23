@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Product — Classic Chic</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css"><link rel="stylesheet" href="css/animations.css"><link rel="stylesheet" href="css/responsive.css">
+</head><body>
+<div id="cc-navbar"></div><div id="cc-sidebar"></div>
+<main class="container">
+  <div id="pd-body"></div>
+  <section class="section">
+    <div class="section-head"><div><span class="eyebrow">You May Also Like</span><h2>Related Pieces</h2></div></div>
+    <div class="product-grid" id="related"></div>
+  </section>
+</main>
+<div id="cc-footer"></div><div id="cc-bottom"></div>
+<script src="js/products.js"></script><script src="js/cart.js"></script><script src="js/auth.js"></script>
+<script src="js/animations.js"></script><script src="js/script.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', ()=>{
+  const id = new URL(location.href).searchParams.get('id') || 'w1';
+  const p = getProduct(id);
+  if(!p){ document.getElementById('pd-body').innerHTML = '<div class="empty-state"><h3>Product not found</h3><a class="btn btn-outline" href="categories.html">Shop All</a></div>'; return; }
+  const gallery = p.gallery || [p.img, p.img, p.img, p.img];
+  const stars = '★'.repeat(Math.round(p.rating))+'☆'.repeat(5-Math.round(p.rating));
+  const discount = p.oldPrice ? Math.round(((p.oldPrice-p.price)/p.oldPrice)*100) : 0;
+  document.getElementById('pd-body').innerHTML = `
+    <div class="breadcrumb" style="text-align:left;margin-top:calc(var(--nav-h) + 30px);margin-bottom:10px"><a href="index.html">Home</a><span>/</span><a href="${p.category}.html">${p.category==='men'?'Men':'Women'}</a><span>/</span>${p.name}</div>
+    <div class="pd-wrap" style="margin-top:0">
+      <div class="pd-gallery">
+        <div class="pd-main"><img id="pd-main-img" src="${gallery[0]}" alt="${p.name}"></div>
+        <div class="pd-thumbs">${gallery.map((g,i)=>`<div class="t ${i===0?'active':''}" data-i="${i}"><img src="${g}" alt=""></div>`).join('')}</div>
+      </div>
+      <div class="pd-info">
+        <div class="brand">Classic Chic · ${p.sub}</div>
+        <h1>${p.name}</h1>
+        <div class="rating"><span class="stars">${stars}</span> ${p.rating} · ${p.reviews} reviews</div>
+        <div class="pd-price">
+          <span class="price">${formatINR(p.price)}</span>
+          ${p.oldPrice?`<span class="price-old">${formatINR(p.oldPrice)}</span>`:''}
+          ${discount>0?`<span class="discount">${discount}% off</span>`:''}
+        </div>
+        <div class="pd-section">
+          <div class="label">Colour</div>
+          <div class="swatch-row">${p.colors.map((c,i)=>`<button class="swatch ${i===0?'active':''}" data-c="${c}" style="background:${c}"></button>`).join('')}</div>
+        </div>
+        <div class="pd-section">
+          <div class="label">Size</div>
+          <div class="size-row">${p.sizes.map((s,i)=>`<button class="size-btn ${i===0?'active':''}" data-s="${s}">${s}</button>`).join('')}</div>
+        </div>
+        <div class="pd-section">
+          <div class="label">Quantity</div>
+          <div class="qty-row"><div class="qty-box"><button data-dq="-1">−</button><span id="pd-qty">1</span><button data-dq="1">+</button></div></div>
+        </div>
+        <div class="pd-actions">
+          <button class="btn btn-outline" id="pd-add">Add to Cart</button>
+          <button class="btn btn-primary" id="pd-buy">Buy Now</button>
+        </div>
+        <div class="pd-meta"><ul>
+          <li>Free shipping across India</li>
+          <li>7-day easy returns</li>
+          <li>Crafted by artisans, quality-checked</li>
+          <li>Secure payments · UPI · Card · COD</li>
+        </ul></div>
+      </div>
+    </div>
+    <section class="section">
+      <div class="section-head"><div><span class="eyebrow">Description</span><h2>About this piece</h2></div></div>
+      <div class="static-content" style="margin:0;max-width:820px"><p>${p.desc}</p>
+        <h3>Specifications</h3>
+        <ul>
+          <li>Fabric: Premium ${p.sub==='Saree'?'silk blend':p.sub==='Sherwani'?'silk / brocade':'cotton / silk'}</li>
+          <li>Fit: Tailored, true to size</li>
+          <li>Care: Dry clean only</li>
+          <li>Country of origin: India</li>
+        </ul>
+      </div>
+    </section>`;
+
+  // gallery
+  document.querySelectorAll('.pd-thumbs .t').forEach(t=>t.addEventListener('click', ()=>{
+    document.querySelectorAll('.pd-thumbs .t').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('pd-main-img').src = gallery[+t.dataset.i];
+  }));
+  // swatches
+  document.querySelectorAll('.swatch').forEach(s=>s.addEventListener('click', ()=>{ document.querySelectorAll('.swatch').forEach(x=>x.classList.remove('active')); s.classList.add('active'); }));
+  document.querySelectorAll('.size-btn').forEach(s=>s.addEventListener('click', ()=>{ document.querySelectorAll('.size-btn').forEach(x=>x.classList.remove('active')); s.classList.add('active'); }));
+  // qty
+  let qty=1;
+  document.querySelectorAll('[data-dq]').forEach(b=>b.addEventListener('click', ()=>{ qty=Math.max(1, qty+parseInt(b.dataset.dq)); document.getElementById('pd-qty').textContent=qty; }));
+  function currentOpts(){
+    return {
+      color: document.querySelector('.swatch.active')?.dataset.c || '',
+      size: document.querySelector('.size-btn.active')?.dataset.s || '',
+      qty
+    };
+  }
+  document.getElementById('pd-add').addEventListener('click', ()=>{ Cart.add(p.id, currentOpts()); toast('Added to cart'); });
+  document.getElementById('pd-buy').addEventListener('click', ()=>{ Cart.add(p.id, currentOpts()); location.href='checkout.html'; });
+
+  // related
+  const related = CC_PRODUCTS.filter(x=>x.id!==p.id && x.category===p.category).slice(0,4);
+  document.getElementById('related').innerHTML = related.map(renderProductCard).join('');
+});
+</script>
+</body></html>
